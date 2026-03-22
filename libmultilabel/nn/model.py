@@ -19,6 +19,7 @@ class MultiLabelModel(L.LightningModule):
         optimizer (str, optional): Optimizer name (i.e., sgd, adam, or adamw). Defaults to 'adam'.
         momentum (float, optional): Momentum factor for SGD only. Defaults to 0.9.
         weight_decay (int, optional): Weight decay factor. Defaults to 0.
+        bias_correction (bool, optional): Enable bias correction for the HuggingFace AdamW optimizer. Defaults to False.
         metric_threshold (float, optional): The decision value threshold over which a label is predicted as positive. Defaults to 0.5.
         monitor_metrics (list, optional): Metrics to monitor while validating. Defaults to None.
         log_path (str): Path to a directory holding the log files and models.
@@ -34,6 +35,7 @@ class MultiLabelModel(L.LightningModule):
         optimizer="adam",
         momentum=0.9,
         weight_decay=0,
+        bias_correction=False,
         lr_scheduler=None,
         scheduler_config=None,
         val_metric=None,
@@ -52,6 +54,7 @@ class MultiLabelModel(L.LightningModule):
         self.optimizer = optimizer
         self.momentum = momentum
         self.weight_decay = weight_decay
+        self.bias_correction = bias_correction
 
         # lr_scheduler
         self.lr_scheduler = lr_scheduler
@@ -85,6 +88,9 @@ class MultiLabelModel(L.LightningModule):
             optimizer = optim.Adam(parameters, weight_decay=self.weight_decay, lr=self.learning_rate)
         elif optimizer_name == "adamw":
             optimizer = optim.AdamW(parameters, weight_decay=self.weight_decay, lr=self.learning_rate)
+        elif optimizer_name == "adamw-hf":
+            from transformers import AdamW as AdamWHF
+            optimizer = AdamWHF(parameters, weight_decay=self.weight_decay, lr=self.learning_rate, correct_bias=self.bias_correction)
         elif optimizer_name == "adamax":
             optimizer = optim.Adamax(parameters, weight_decay=self.weight_decay, lr=self.learning_rate)
         else:

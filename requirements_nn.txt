@@ -1,6 +1,6 @@
 nltk
 lightning
 # https://github.com/pytorch/text/releases
-torch
+torch<=2.3
 torchmetrics==0.10.3
-transformers
+transformers<4.50

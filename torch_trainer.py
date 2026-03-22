@@ -202,6 +202,7 @@ class TorchTrainer:
                 optimizer=self.config.optimizer,
                 momentum=self.config.momentum,
                 weight_decay=self.config.weight_decay,
+                bias_correction=self.config.bias_correction,
                 lr_scheduler=self.config.lr_scheduler,
                 scheduler_config=self.config.scheduler_config,
                 val_metric=self.config.val_metric,

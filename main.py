@@ -125,6 +125,9 @@ def add_all_arguments(parser):
         help="Optimizer (default: %(default)s)",
     )
     parser.add_argument(
+        "--bias_correction", action="store_true", help="Whether to apply bias correction for the HuggingFace AdamW optimizer (default: %(default)s)"
+    )
+    parser.add_argument(
         "--learning_rate", type=float, default=0.0001, help="Learning rate for optimizer (default: %(default)s)"
     )
     parser.add_argument("--weight_decay", type=float, default=0, help="Weight decay factor (default: %(default)s)")
